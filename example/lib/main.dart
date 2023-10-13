@@ -433,7 +433,10 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
                     OvalFactory(): "Oval",
                     ArrowNumberFactory(
                         number: "99",
-                        numberOffset: const Offset(-10, 0)): "Arrow Number"
+                        numberOffset: const Offset(-10, 0)): "Arrow Number",
+                    CircleSelectionFactory(converter: (value) {
+                      return Offset(value.dx * 2, value.dy * 2);
+                    }): "Circle Selection"
                   }
                       .entries
                       .map((e) => PopupMenuItem(

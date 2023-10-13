@@ -31,6 +31,7 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
       onScaleStart: onScaleStart,
       onScaleUpdate: onScaleUpdate,
       onScaleEnd: onScaleEnd,
+      onTapDown: onTapDown,
       child: widget.child,
     );
   }
@@ -74,8 +75,9 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
       final startingPosition =
           shapeDrawable.position - Offset(size.width / 2, size.height / 2);
 
-      final newSize = Size((details.localFocalPoint.dx - startingPosition.dx),
+      Size newSize = Size((details.localFocalPoint.dx - startingPosition.dx),
           (details.localFocalPoint.dy - startingPosition.dy));
+
       final newPosition =
           startingPosition + Offset(newSize.width / 2, newSize.height / 2);
       final newDrawable = sized2DDrawable.copyWith(
@@ -121,6 +123,19 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
     setState(() {
       PainterController.of(context)
           .replaceDrawable(oldDrawable, newDrawable, newAction: false);
+    });
+  }
+
+  void onTapDown(TapDownDetails details) {
+    final factory = settings.factory;
+    if (factory == null) return;
+
+    final shapeDrawable =
+        factory.create(details.localPosition, settings.paint);
+
+    setState(() {
+      PainterController.of(context).addDrawables([shapeDrawable]);
+      currentShapeDrawable = shapeDrawable;
     });
   }
 }
