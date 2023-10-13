@@ -103,13 +103,13 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
   /// to use it as a background
   void initBackground() async {
     // Extension getter (.image) to get [ui.Image] from [ImageProvider]
-    final image =
-        await const NetworkImage('https://picsum.photos/1920/1080/').image;
+    // final image =
+    //     await const NetworkImage('https://picsum.photos/1920/1080/').image;
 
-    setState(() {
-      backgroundImage = image;
-      controller.background = image.backgroundDrawable;
-    });
+    // setState(() {
+    //   backgroundImage = image;
+    //   controller.background = image.backgroundDrawable;
+    // });
   }
 
   /// Updates UI when the focus changes
@@ -177,19 +177,13 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
         ),
         body: Stack(
           children: [
-            if (backgroundImage != null)
-              // Enforces constraints
-              Positioned.fill(
-                child: Center(
-                  child: AspectRatio(
-                    aspectRatio:
-                        backgroundImage!.width / backgroundImage!.height,
-                    child: FlutterPainter(
-                      controller: controller,
-                    ),
-                  ),
-                ),
+            // if (backgroundImage != null)
+            // Enforces constraints
+            Positioned.fill(
+              child: FlutterPainter(
+                controller: controller,
               ),
+            ),
             Positioned(
               bottom: 0,
               right: 0,
@@ -437,6 +431,9 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
                     DoubleArrowFactory(): "Double Arrow",
                     RectangleFactory(): "Rectangle",
                     OvalFactory(): "Oval",
+                    ArrowNumberFactory(
+                        number: "99",
+                        numberOffset: const Offset(-10, 0)): "Arrow Number"
                   }
                       .entries
                       .map((e) => PopupMenuItem(
