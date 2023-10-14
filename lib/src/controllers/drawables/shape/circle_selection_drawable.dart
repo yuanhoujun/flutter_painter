@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_painter/src/extensions/paint_copy_extension.dart';
 
 import '../object_drawable.dart';
 import '../sized2ddrawable_v2.dart';
@@ -11,6 +12,9 @@ class CircleSelectionDrawable extends Sized2DDrawableV2
   /// The paint to be used for the line drawable.
   @override
   Paint paint;
+
+  Color color;
+  double lineWidth;
 
   Offset? Function(Offset) converter;
 
@@ -26,7 +30,9 @@ class CircleSelectionDrawable extends Sized2DDrawableV2
           const <ObjectDrawableAssist, Paint>{},
       bool locked = false,
       bool hidden = false,
-      required this.converter})
+      required this.converter,
+      required this.color,
+      required this.lineWidth})
       : paint = paint ?? ShapeDrawable.defaultPaint,
         super(
             size: size,
@@ -52,13 +58,15 @@ class CircleSelectionDrawable extends Sized2DDrawableV2
     if (newPosition == null) return;
 
     final drawingSize = this.size * scale;
+    final newPaint = paint.copyWith(
+        color: color, strokeWidth: lineWidth, style: PaintingStyle.stroke);
 
     canvas.drawOval(
         Rect.fromCenter(
             center: newPosition,
             width: drawingSize.width,
             height: drawingSize.height),
-        paint);
+        newPaint);
   }
 
   /// Creates a copy of this but with the given fields replaced with the new values.
@@ -72,7 +80,9 @@ class CircleSelectionDrawable extends Sized2DDrawableV2
       Size? size,
       Paint? paint,
       bool? locked,
-      Offset Function(Offset)? converter}) {
+      Offset Function(Offset)? converter,
+      Color? color,
+      double? lineWidth}) {
     return CircleSelectionDrawable(
         hidden: hidden ?? this.hidden,
         assists: assists ?? this.assists,
@@ -82,7 +92,9 @@ class CircleSelectionDrawable extends Sized2DDrawableV2
         size: size ?? this.size,
         locked: locked ?? this.locked,
         paint: paint ?? this.paint,
-        converter: converter ?? this.converter);
+        converter: converter ?? this.converter,
+        color: color ?? this.color,
+        lineWidth: lineWidth ?? this.lineWidth);
   }
 
   /// Calculates the size of the rendered object.
