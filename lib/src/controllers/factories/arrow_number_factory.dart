@@ -5,29 +5,30 @@ import 'package:flutter_painter/src/controllers/drawables/shape/arrow_number_dra
 
 /// A [ArrowNumberDrawable] factory.
 class ArrowNumberFactory extends ShapeFactory<ArrowNumberDrawable> {
+  final PainterController controller;
+
   /// The size of the arrow head to be used in created [ArrowDrawable]s.
   double? arrowHeadSize;
-
-  String number;
 
   Offset? numberOffset;
 
   /// Creates an instance of [ArrowFactory] with the given [arrowHeadSize].
-  ArrowNumberFactory({this.arrowHeadSize, required this.number, this.numberOffset}) : super();
+  ArrowNumberFactory(
+      {required this.controller, this.arrowHeadSize, this.numberOffset})
+      : super();
 
   /// Creates and returns a [ArrowDrawable] with length of 0 and the passed [position] and [paint].
   @override
   ArrowNumberDrawable create(Offset position, [Paint? paint]) {
+    final drawables = controller.drawables.whereType<ArrowNumberDrawable>();
+    final len = drawables.length;
+
     return ArrowNumberDrawable(
-        assists: {
-          ObjectDrawableAssist.horizontal,
-          ObjectDrawableAssist.vertical
-        },
         length: 0,
         position: position,
         paint: paint,
         arrowHeadSize: arrowHeadSize,
-        number: number,
+        number: "${len + 1}",
         numberOffset: numberOffset);
   }
 }

@@ -134,20 +134,16 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
       DoubleArrowFactory(): "Double Arrow",
       RectangleFactory(): "Rectangle",
       OvalFactory(): "Oval",
-      ArrowNumberFactory(number: "99", numberOffset: const Offset(-10, 0)):
-          "Arrow Number",
+      ArrowNumberFactory(
+          controller: controller,
+          numberOffset: const Offset(-10, 0)): "Arrow Number",
       CircleSelectionFactory(converter: (value) {
         return value;
       }): "Circle Selection"
     };
 
     if (_image != null) {
-      map[ImageFactory(
-          scale: 0.2,
-          image: _image!,
-          converter: (value) {
-            return value;
-          })] = "Image";
+      map[ImageFactory(scale: 0.2, image: _image!)] = "Image";
     }
 
     return Scaffold(
