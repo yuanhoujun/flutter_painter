@@ -10,12 +10,9 @@ import 'shape_factory.dart';
 class ImageFactory extends ShapeFactory<ImageShapeDrawable> {
   final double scale;
   ui.Image image;
-  Offset? Function(Offset) converter;
 
   /// Creates an instance of [ImageFactory].
-  ImageFactory(
-      {required this.scale, required this.converter, required this.image})
-      : super();
+  ImageFactory({required this.scale, required this.image}) : super();
 
   /// Creates and returns a [ImageShapeDrawable] with length of 0 and the passed [position] and [paint].
   @override
