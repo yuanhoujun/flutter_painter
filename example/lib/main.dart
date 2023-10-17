@@ -41,6 +41,7 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
     ..color = Colors.red
     ..style = PaintingStyle.stroke
     ..strokeCap = StrokeCap.round;
+  ui.Image? _image;
 
   static const List<String> imageLinks = [
     "https://i.imgur.com/btoI5OX.png",
@@ -85,9 +86,7 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
               color: red,
               strokeWidth: 5,
             ),
-            shape: ShapeSettings(
-              paint: shapePaint,
-            ),
+            shape: ShapeSettings(paint: shapePaint, drawOnce: false),
             scale: const ScaleSettings(
               enabled: true,
               minScale: 1,
@@ -97,6 +96,16 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
     textFocusNode.addListener(onFocus);
     // Initialize background
     initBackground();
+    _init();
+  }
+
+  void _init() async {
+    final image = await AssetImage("assets/icons/like.png").image;
+    if (mounted) {
+      setState(() {
+        _image = image;
+      });
+    }
   }
 
   /// Fetches image from an [ImageProvider] (in this example, [NetworkImage])
@@ -119,6 +128,27 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
 
   Widget buildDefault(BuildContext context) {
     final accentColor = Theme.of(context).colorScheme.secondary;
+    final map = <ShapeFactory, String>{
+      LineFactory(): "Line",
+      ArrowFactory(): "Arrow",
+      DoubleArrowFactory(): "Double Arrow",
+      RectangleFactory(): "Rectangle",
+      OvalFactory(): "Oval",
+      ArrowNumberFactory(number: "99", numberOffset: const Offset(-10, 0)):
+          "Arrow Number",
+      CircleSelectionFactory(converter: (value) {
+        return value;
+      }): "Circle Selection"
+    };
+
+    if (_image != null) {
+      map[ImageFactory(
+          scale: 0.2,
+          image: _image!,
+          converter: (value) {
+            return value;
+          })] = "Image";
+    }
 
     return Scaffold(
         appBar: PreferredSize(
@@ -425,20 +455,7 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
               if (controller.shapeFactory == null)
                 PopupMenuButton<ShapeFactory?>(
                   tooltip: "Add shape",
-                  itemBuilder: (context) => <ShapeFactory, String>{
-                    LineFactory(): "Line",
-                    ArrowFactory(): "Arrow",
-                    DoubleArrowFactory(): "Double Arrow",
-                    RectangleFactory(): "Rectangle",
-                    OvalFactory(): "Oval",
-                    ArrowNumberFactory(
-                        number: "99",
-                        numberOffset: const Offset(-10, 0)): "Arrow Number",
-                    CircleSelectionFactory(converter: (value) {
-                      return Offset(value.dx * 2, value.dy * 2);
-                    }): "Circle Selection"
-                  }
-                      .entries
+                  itemBuilder: (context) => map.entries
                       .map((e) => PopupMenuItem(
                           value: e.key,
                           child: Row(

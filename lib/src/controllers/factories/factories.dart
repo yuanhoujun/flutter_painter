@@ -6,3 +6,4 @@ export 'rectangle_factory.dart';
 export 'double_arrow_factory.dart';
 export 'arrow_number_factory.dart';
 export 'circle_selection_factory.dart';
+export 'image_factory.dart';
