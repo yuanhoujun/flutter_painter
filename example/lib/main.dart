@@ -86,9 +86,10 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
               color: red,
               strokeWidth: 5,
             ),
-            shape: ShapeSettings(paint: shapePaint, drawOnce: false),
+            shape: ShapeSettings(
+                paint: shapePaint, drawOnce: false, allowInteraction: false),
             scale: const ScaleSettings(
-              enabled: true,
+              enabled: false,
               minScale: 1,
               maxScale: 5,
             )));
@@ -136,6 +137,7 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
       OvalFactory(): "Oval",
       ArrowNumberFactory(
           controller: controller,
+          locked: false,
           numberOffset: const Offset(-10, 0)): "Arrow Number",
       CircleSelectionFactory(converter: (value) {
         return value;

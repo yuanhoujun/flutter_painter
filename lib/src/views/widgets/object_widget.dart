@@ -166,7 +166,8 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                 angle: drawable.rotationAngle,
                 transformHitTests: true,
                 child: Container(
-                  child: freeStyleSettings.mode != FreeStyleMode.none
+                  child: freeStyleSettings.mode != FreeStyleMode.none ||
+                          !shapeSettings.allowInteraction
                       ? widget
                       : MouseRegion(
                           cursor: drawable.locked
@@ -544,6 +545,9 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
   /// Getter for the [ObjectSettings] from the controller to make code more readable.
   ObjectSettings get settings =>
       PainterController.of(context).value.settings.object;
+
+  ShapeSettings get shapeSettings =>
+      PainterController.of(context).value.settings.shape;
 
   /// Getter for the [FreeStyleSettings] from the controller to make code more readable.
   ///

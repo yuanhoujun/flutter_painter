@@ -13,6 +13,9 @@ class ShapeSettings {
   /// If `false`, the user will be able to keep drawing shapes until [factory] is set to `null` explicitly.
   final bool drawOnce;
 
+  // 标记是否允许交互（选中、旋转、放大等等）
+  final bool allowInteraction;
+
   /// The paint to be used when new shapes are drawn.
   /// If `null`, the [ShapeDrawable.defaultPaint] will be used.
   final Paint? paint;
@@ -21,6 +24,7 @@ class ShapeSettings {
   const ShapeSettings({
     this.factory,
     this.drawOnce = true,
+    this.allowInteraction = true,
     this.paint,
   });
 
@@ -28,12 +32,14 @@ class ShapeSettings {
   ShapeSettings copyWith({
     ShapeFactory? factory = _NoShapePassedFactory.instance,
     bool? drawOnce,
+    bool? allowInteraction,
     Paint? paint,
   }) =>
       ShapeSettings(
         factory:
             factory == _NoShapePassedFactory.instance ? this.factory : factory,
         drawOnce: drawOnce ?? this.drawOnce,
+        allowInteraction: allowInteraction ?? this.allowInteraction,
         paint: paint ?? this.paint,
       );
 }
