@@ -40,7 +40,7 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
     final factory = settings.factory;
     if (factory == null ||
         details.pointerCount > 1 ||
-        factory is ImageFactory) {
+        _isTapSelected(factory)) {
       return;
     }
 
@@ -132,7 +132,7 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
 
   void onTapDown(TapDownDetails details) {
     final factory = settings.factory;
-    if (factory == null || factory is! ImageFactory) return;
+    if (factory == null || !_isTapSelected(factory)) return;
 
     final shapeDrawable = factory.create(details.localPosition, settings.paint);
 
@@ -140,5 +140,12 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
       PainterController.of(context).addDrawables([shapeDrawable]);
       currentShapeDrawable = shapeDrawable;
     });
+  }
+
+  bool _isTapSelected(ShapeFactory factory) {
+    if (factory is ImageFactory) return true;
+    if (factory is CircleSelectionFactory) return true;
+
+    return false;
   }
 }
