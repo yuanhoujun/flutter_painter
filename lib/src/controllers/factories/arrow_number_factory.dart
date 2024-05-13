@@ -12,9 +12,14 @@ class ArrowNumberFactory extends ShapeFactory<ArrowNumberDrawable> {
 
   Offset? numberOffset;
 
+  bool locked;
+
   /// Creates an instance of [ArrowFactory] with the given [arrowHeadSize].
   ArrowNumberFactory(
-      {required this.controller, this.arrowHeadSize, this.numberOffset})
+      {required this.controller,
+      this.arrowHeadSize,
+      this.numberOffset,
+      this.locked = false})
       : super();
 
   /// Creates and returns a [ArrowDrawable] with length of 0 and the passed [position] and [paint].
@@ -29,6 +34,7 @@ class ArrowNumberFactory extends ShapeFactory<ArrowNumberDrawable> {
         paint: paint,
         arrowHeadSize: arrowHeadSize,
         number: "${len + 1}",
+        locked: locked,
         numberOffset: numberOffset);
   }
 }
