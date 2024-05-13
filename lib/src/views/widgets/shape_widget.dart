@@ -31,14 +31,18 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
       onScaleStart: onScaleStart,
       onScaleUpdate: onScaleUpdate,
       onScaleEnd: onScaleEnd,
-      // onTapDown: onTapDown,
+      onTapDown: onTapDown,
       child: widget.child,
     );
   }
 
   void onScaleStart(ScaleStartDetails details) {
     final factory = settings.factory;
-    if (factory == null || details.pointerCount > 1) return;
+    if (factory == null ||
+        details.pointerCount > 1 ||
+        factory is ImageFactory) {
+      return;
+    }
 
     final shapeDrawable =
         factory.create(details.localFocalPoint, settings.paint);
@@ -126,16 +130,15 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
     });
   }
 
-  // void onTapDown(TapDownDetails details) {
-  //   final factory = settings.factory;
-  //   if (factory == null) return;
+  void onTapDown(TapDownDetails details) {
+    final factory = settings.factory;
+    if (factory == null || factory is! ImageFactory) return;
 
-  //   final shapeDrawable =
-  //       factory.create(details.localPosition, settings.paint);
+    final shapeDrawable = factory.create(details.localPosition, settings.paint);
 
-  //   setState(() {
-  //     PainterController.of(context).addDrawables([shapeDrawable]);
-  //     currentShapeDrawable = shapeDrawable;
-  //   });
-  // }
+    setState(() {
+      PainterController.of(context).addDrawables([shapeDrawable]);
+      currentShapeDrawable = shapeDrawable;
+    });
+  }
 }
