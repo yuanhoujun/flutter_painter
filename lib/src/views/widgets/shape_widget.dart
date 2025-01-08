@@ -115,7 +115,9 @@ class _ShapeWidgetState extends State<_ShapeWidget> {
           .dispatch(context);
     }
 
-    DrawableCreatedNotification(currentShapeDrawable).dispatch(context);
+    if (currentShapeDrawable != null) {
+      DrawableCreatedNotification(currentShapeDrawable).dispatch(context);
+    }
 
     setState(() {
       currentShapeDrawable = null;
